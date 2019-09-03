@@ -1,0 +1,214 @@
+<head>
+    <meta name="robots" content="noindex"/>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: transparent;
+            text-decoration: none;
+        }
+
+        .search-box {
+            width: 500px;
+            max-width: 100%;
+            margin: 50px auto;
+        }
+
+        .search-div {
+            display: flex;
+        }
+
+        .search-div input {
+            width: 100%;
+            height: 60px;
+            font-size: 22px;
+            color: black;
+            padding: 10px;
+            outline: none;
+            border-radius: 5px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .search-div input[type=text]:focus {
+            border: 2px solid rgba(0, 0, 0, 0.4);
+        }
+
+        .search-but {
+            outline: none;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            width: 70px;
+            height: 60px;
+            margin-left: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+            background: white;
+            width: 500px;
+            max-width: 94%;
+            overflow: hidden;
+            margin-top: 7px;
+            z-index: 100;
+            border-radius: 5px;
+            border: 1px solid #eeeeee;
+        }
+
+        .inner-searchresult {
+            padding: 8px 10px 0px 10px;
+            color: black;
+            word-break: break-word;
+            border-bottom: 1px solid #eeeeee;
+            font-size: 1.1em;
+            line-height: 1.3em;
+        }
+
+        .inner-searchresult:hover {
+            background: rgb(0, 0, 0, 0.1)
+        }
+
+        .dropdown-cat {
+            width: 100%;
+            margin-top: 5px;
+            font-size: 0.7em;
+            color: #c6aeae;
+            text-transform: uppercase;
+        }
+
+        form {
+            width: 750px;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            border-radius: 3px;
+            border: 1px solid #ccc2c2;
+            padding: 0 10px;
+            height: 40px;
+            font-size: 16px;
+            margin: 10px 0 25px 0;
+        }
+
+        form textarea {
+            border: 1px solid #ccc2c2;
+            width: 100%;
+            resize: none;
+            height: 150px;
+            margin: 10px 0 25px 0;
+            overflow-y: auto;
+            border-radius: 3px;
+            padding: 10px;
+        }
+
+        form label {
+            text-transform: uppercase;
+        }
+
+        form button {
+            border: none;
+            outline: none;
+            color: white;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 20px;
+            font-family: 'Ariel', sans-serif;
+            background-image: linear-gradient(to right, #DA22FF 0%, #9733EE 51%, #DA22FF 100%);
+        }
+
+        .delete-btn{
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-box">
+        <div class="search-div">
+            <input placeholder="search..." type="text">
+            <button class="search-but"><img src="/images/search-solid.svg" height="25px"></button>
+        </div>
+        <div class="search-dropdown"></div>
+    </div>
+    <form action="/scienceadmineditor" method="POST" enctype="multipart/form-data">
+        <label>Enter Title : </label>
+        <input name="title" placeholder="Enter article title" required>
+        <label>Select Category : </label>
+        <select name="cat" required>
+            <option value="space">space</option>
+            <option value="news">news</option>
+            <option value="tech">tech</option>
+            <option value="nature">nature</option>
+            <option value="health">health</option>
+            <option value="animals">animals</option>
+            <option value="history">history</option>
+            <option value="experiments">experiments</option>
+        </select>
+        <label>Write Article : </label>
+        <textarea name="content" placeholder="Enter article content" required></textarea>
+        <label>Article Image : </label>
+        <input style="width: 200px;margin-left: 15px;border:none;padding:0;font-size:14px" name="SciencVersionImage" type="file" accept="image/*" required>
+        <div style="text-align: center"><button id="submit">SUBMIT</button></div>
+    </form>
+
+    <script>
+        const searchDropdown = $(".search-dropdown")
+        const searchDiv = $(".search-div input");
+        const searchBtn = $(".search-but");
+        searchDiv.on("input", () => search())
+
+        async function search() {
+            searchDropdown.css("display", "block")
+            const urlPara = searchDiv.val();
+            if (urlPara.length == 0) {
+                searchDropdown.html("")
+                searchDropdown.css("display", "none")
+            } else {
+                const response = await fetch(`/search/${urlPara}`);
+                const json = await response.json();
+                if (json.length > 0) {
+                    searchDropdown.html("")
+                    for (j of json) {
+                        const searchdivs = `<div><a href="post/${j.url}-${j._id}"><div class="inner-searchresult">${j.title}<div class="dropdown-cat">${j.cat} &nbsp;&nbsp;&nbsp; ${j.date}</div></div></a><div class="delete-btn" value="${j._id}">DELETE</div></div>`
+                        searchDropdown.append(searchdivs)
+                    }
+                    $(".delete-btn").on('click', function() {
+                        deletePost($(this))
+                    })
+                } else {
+                    searchDropdown.html("")
+                    searchDropdown.append("<div style='line-height:50px;text-align:center;'>NO RESULTS FOUND</div>")
+                }
+            }
+        }
+
+        async function deletePost(thispost) {
+            const postId = thispost.attr("value");
+            const url = "/deletepost"
+            const options = {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: postId
+            }
+            const deleteRequest = await fetch(url, options)
+            const response = await deleteRequest.json();
+            console.log(response)
+            thispost.parent().html(response)
+        }
+    </script>
+</body>

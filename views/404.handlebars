@@ -1,0 +1,107 @@
+<head>
+    <meta name="robots" content="noindex" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+      
+body{
+  background:black;
+  font-family: sans-serif;
+}
+
+a {
+    color:white;
+}
+.game-div{
+  text-align : center;
+  width: 310px;
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  left: 50%;
+  top: 50%;
+}
+.game-div p{
+  color:white;
+  background: -webkit-linear-gradient(90deg, yellow, aqua);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 120px;  
+  margin: 0 0 20px 0;
+}
+
+.game-div span{
+  font-size:50px;
+}
+.but-div{
+  width:100%;
+  display: flex
+}
+.but-div button,.retry-but{
+  width:48%;
+  margin:1%;
+  color: white;
+  cursor: pointer;
+  background: black;
+  height: 40px;
+}
+.retry-but{
+  margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+<div class="game-div">
+ <p>404<span>error</span></p>
+  <div class="but-div">
+    <button id="err-home">HOME PAGE</button>
+    <button id="err-play">PLAY GAME</button>
+  </div>
+</div>
+<script>
+
+document.querySelector("#err-home").onclick = ()=> location.href = "/";
+const intro = `<span style="font-size: 40px">Simple Addition</span><br>
+<font style="color: white">90% people fail giving correct answer</font>`
+const rule = `<span style="font-size: 25px;line-height: 35px">Add Following Numbers Without Using Calculator.</span>`
+const playBut = document.querySelector("#err-play");
+const gameDiv = document.querySelector(".game-div");
+const numbers = ["1000","+40","+1000","+30","+1000","+20","+1000","+10"]
+playBut.onclick = ()=>{
+  gameDiv.innerHTML=intro;
+  setTimeout(()=>{gameDiv.innerHTML=rule;
+   setTimeout(()=>{game()},3000)}, 4000)
+}
+
+function game(){
+  gameDiv.innerHTML="Starting game...";
+  let i=0;
+  let timer = setInterval(()=>{
+    if(i < numbers.length){
+    gameDiv.innerHTML=`<p style="font-size: 100px;margin:0">${numbers[i]}</p>`;
+    i++;
+    }else{
+      clearInterval(timer);
+      gameDiv.innerHTML=`<p style="font-size:40px">Did You Say 5000?</p>
+<div class="but-div">
+<button value="yes" onclick=result(true)>YES</button>
+<button value="no" onclick=result()>NO</button>
+</div>`
+    }},1600)  
+}
+
+function result(x){
+  if(x){
+    gameDiv.innerHTML=`<p style="font-size:35px">You Are Wrong..It's 4100</p>
+<button class="retry-but" onclick=game()>Can't Believe? Retry</button><br>
+<a href="/">TAKE ME TO HOME PAGE</a>`
+  }
+  else{
+     gameDiv.innerHTML=`<p style="font-size:40px">Answer is 4100.</p>
+     <a href="/">TAKE ME TO HOME PAGE</a>`
+  }
+}
+  
+</script>
+</body>
