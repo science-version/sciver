@@ -24,9 +24,9 @@ async function getData() {
                                     <img src="/images/share-alt-solid.svg" width="14" height="16.8" style="margin-top: 8.5px;">
                                 </div>
                                 <div class="share-drop">
-                                    <img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px">
-                                    <img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px">
-                                    <img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.scienceversion.com/post/${d.url}-${d._id}"><img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px"></a>
+                                    <a href="https://twitter.com/intent/tweet?url=http://www.scienceversion.com/post/${d.url}-${d._id}"><img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px"></a>
+                                    <a href="https://api.whatsapp.com/send?text=http://www.scienceversion.com/post/${d.url}-${d._id}" data-action="share/whatsapp/share"><img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px"></a>
                                 </div>
                                 <a href="post/${d.url}-${d._id}">
                                 <div class="cards" style="background: url('${d.imageCardUrl}')">
@@ -176,6 +176,7 @@ $(".tabs a").on('click', function() {
         loadmoreCount = 0;
         category = "trending";
         footer.css("display", "none");
+        nomoreresults.css("display", "none");
         loader1.css("display", "block");
         articlesDiv.html("");
         getData().then(() => {

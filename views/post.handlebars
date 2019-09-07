@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-	 <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon"/>
     <title>{{data.title}}</title>
     <meta name="title" content="{{data.title}} | ScienceVersion">
     <meta name="author" content="Science Version">
@@ -180,9 +180,9 @@
 		<div class="recommonded-post">
             {{#each recommended}}
             <div class="cards">
-                <img src="{{imageRecommondedUrl}}" class="card-img">
+                <a href="{{url}}-{{_id}}"><img src="{{imageRecommondedUrl}}" class="card-img"></a>
                 <div style="margin-top:10px">
-                <font class="cart-txt">{{title}}</font>
+                <a href="{{url}}-{{_id}}"><text class="cart-txt">{{title}}</text></a>
                 </div>
                 <div style="margin-top:auto">      
                 <a href="/{{cat}}"><button class="category-but">{{cat}}</button></a>
@@ -190,9 +190,9 @@
                 <img src="/images/share-alt-solid.svg" width="14px" height="16.8px" style="margin-top:4px">
                 </button>
                 <div class="share-drop">
-                <img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px">
-                <img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px">
-                <img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.scienceversion.com/post/{{url}}-{{d._id}}"><img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px"></a>
+                <a href="https://twitter.com/intent/tweet?url=http://www.scienceversion.com/post/{{url}}-{{_id}}"><img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px"></a>
+                <a href="https://api.whatsapp.com/send?text=http://www.scienceversion.com/post/{{url}}-{{_id}}" data-action="share/whatsapp/share"><img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px"></a>
                 </div>
                 </div>
                 </div>

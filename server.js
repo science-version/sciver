@@ -46,7 +46,10 @@ app.get("/search/:searchdata", (req, res) => {
 // sending article reading page and counting views
 app.get('/post/:postdata', (req, res) => {
     const postdata = req.params.postdata.split("-");
-    const postId = postdata[postdata.length - 1];
+    postId = postdata[postdata.length - 1];
+    if(postId.length != 24){
+        res.render('404');
+    } else {
     const collection = req.app.locals.collection;
     const id = new ObjectId(postId);
     collection.find({"_id": id}).toArray((err, data) => {
@@ -60,6 +63,7 @@ app.get('/post/:postdata', (req, res) => {
             }
         })
     })
+    }
 });
 
 // sending post cards json data for home page
@@ -180,7 +184,7 @@ app.post("/deletepost", (req, res) => {
     collection.find({"_id": id}).toArray((err, data) => {
         const imagePath = [`./\public${data[0].imageurl}`, `./\public${data[0].imageCardUrl}`, `./\public${data[0].imageRecommondedUrl}`]
         imagePath.forEach((filepath)=>{
-            fileSystem.unlink(filepath, (err) => {if(err) console.log(err)})
+            fileSystem.unlink(filepath, (err) => {if(err) console.log("no image")})
         })
     })
     collection.deleteOne({"_id": id}, {}, (err) => {

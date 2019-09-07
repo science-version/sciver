@@ -26,9 +26,9 @@ async function getData() {
                                     <img src="/images/share-alt-solid.svg" width="14px" height="16.8px" style="margin-top: 8.5px;">
                                 </div>
                                 <div class="share-drop">
-                                    <img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px">
-                                    <img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px">
-                                    <img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.scienceversion.com/post/${d.url}-${d._id}"><img src="/images/facebook-square-brands (2).svg" width='25' style="margin: 5px"></a>
+                                    <a href="https://twitter.com/intent/tweet?url=http://www.scienceversion.com/post/${d.url}-${d._id}"><img src="/images/twitter-square-brands.svg" width='25' style="margin: 5px"></a>
+                                    <a href="https://api.whatsapp.com/send?text=http://www.scienceversion.com/post/${d.url}-${d._id}" data-action="share/whatsapp/share"><img src="/images/whatsapp-square-brands.svg" width='25' style="margin: 5px"></a>
                                 </div>
                                 <a href="post/${d.url}-${d._id}">
                                 <div class="cards" style="background: url('${d.imageCardUrl}')">
@@ -114,9 +114,9 @@ var btn = $("#myBtn");
 
 var span = $(".close")[0];
 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+btn.click( function() {
+    modal.css("display" , "block");
+})
 
 span.onclick = function() {
     modal.css("display", "none");

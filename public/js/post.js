@@ -57,9 +57,9 @@ var btn = $("#myBtn");
 
 var span = $(".close")[0];
 
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+btn.click(function() {
+    modal.css("display", "block");
+})
 
 span.onclick = function() {
     modal.css("display", "none");
