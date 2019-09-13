@@ -157,13 +157,20 @@
             <option value="history">history</option>
             <option value="experiments">experiments</option>
         </select>
+        <label>Write Description : </label>
+        <input name="description" placeholder="Enter article description" required>
         <label>Write Article : </label>
         <textarea name="content" placeholder="Enter article content" required></textarea>
         <label>Article Image : </label>
         <input style="width: 200px;margin-left: 15px;border:none;padding:0;font-size:14px" name="SciencVersionImage" type="file" accept="image/*" required>
         <div style="text-align: center"><button id="submit">SUBMIT</button></div>
     </form>
-
+    <hr style="margin: 30px 0 15px 0;">
+    <form action="/addextraimages" method="POST" enctype="multipart/form-data">
+        <label>Direct Image : </label>
+        <input style="width: 200px;margin-left: 15px;border:none;padding:0;font-size:14px" name="SciencVersionImage" type="file" accept="image/*" required>
+        <div style="text-align: center"><button id="submit">ADD IMAGE</button></div>
+    </form>
     <script>
         const searchDropdown = $(".search-dropdown")
         const searchDiv = $(".search-div input");

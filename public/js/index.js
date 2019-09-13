@@ -37,6 +37,7 @@ async function getData() {
                             </div>`
             articlesDiv.append(card)
         }
+        
         $(".sharediv").on("click", function() {
             $(this).siblings(".share-drop:first").toggle();
         })
@@ -173,21 +174,24 @@ $(".tabs a").on('click', function() {
     $(".tabs a").removeClass("active")
     $(this).addClass("active")
     if ($(this).attr('name') == "trending") {
+        articlesDiv.html("");
         loadmoreCount = 0;
         category = "trending";
         footer.css("display", "none");
         nomoreresults.css("display", "none");
         loader1.css("display", "block");
-        articlesDiv.html("");
         getData().then(() => {
             onscrollloader = true;
             footer.css("display", "block");
+            loader1.css("display", "none");
         });
     } else {
+        articlesDiv.html("");
         loadmoreCount = 0;
         category = "latest";
         footer.css("display", "none");
-        articlesDiv.html("");
+        nomoreresults.css("display", "none");
+        loader1.css("display", "block");
         getData().then(() => {
             onscrollloader = true;
             footer.css("display", "block");

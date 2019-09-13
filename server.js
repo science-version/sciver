@@ -7,7 +7,7 @@ const fileSystem = require('fs');
 const sharp = require('sharp');
 const ObjectId = require('mongodb').ObjectID;
 
-const url = "mongodb://localhost:27017";
+const url = "mongodb://157.245.104.175:27017";
 
 const app = express();
 const formData = multer();
@@ -76,8 +76,8 @@ app.get("/cardsdata/:dataload", (req, res) => {
             res.json(data);
         })
     } else {
-        let nowDate = Date.now();
-        let dateDiff = nowDate - 2629746000;
+        const nowDate = Date.now();
+        const dateDiff = nowDate - 2629746000;
         collection.find({"timestamp": {$gt: dateDiff}}, {"content": 0}).sort({"views": -1}).skip(dataload).limit(6).toArray((err, data) => {
             res.json(data);
         })
@@ -169,10 +169,15 @@ app.post("/scienceadmineditor", (req, res) => {
             data.url = data.title.replace(/ /g, "-").replace(/\?|\//g, "");
             const collection = req.app.locals.collection;
             collection.insertOne(data);
-            collection.find({$or: [{"timestamp": data.timestamp}, {"title": data.title}]}, {"content": 0}).toArray((err, d) => {
-                return res.redirect(`/post/${d[0].url}-${d[0]._id}`);
-            })
+            return res.redirect("/");
         }
+    })
+})
+
+//add direct image
+app.post("/addextraimages", (req, res)=>{
+    upload(req, res, (err)=>{
+        if(!err){res.send(`/uploads/${req.file.filename}`)}
     })
 })
 
